@@ -4,6 +4,19 @@ An AI support agent for a Gmail inbox. It reads every new customer email, answer
 
 Built for a fictional store, **Harbor & Pine**, that sells paddle boards and flat-pack shelving on Amazon.
 
+## Try it
+
+Send an email to **harborpine.support.demo@gmail.com**. The inbox is checked every 10 minutes, so the reply lands in the same thread within about 10 to 15 minutes.
+
+| Send something like | What happens |
+| --- | --- |
+| *Which paddle board should I buy? I weigh 80 kg.* | Answered from the knowledge base |
+| *My board loses air overnight.* | Answered with the valve check steps |
+| *Panel 4 of my HP-S3 bookcase is cracked. Order 112-5520341-0093312.* | Acknowledged and handed to a person, with `ship-panels` proposed |
+| *I want a refund now.* | Acknowledged and handed to a person |
+
+It is a demo on free tiers, so replies can be slower or stop for a while when the daily model quota runs out. Please don't send personal information.
+
 ![Tickets view](docs/screenshots/tickets.png)
 
 ## What it does
