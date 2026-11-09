@@ -21,7 +21,9 @@ class Issue(BaseModel):
         "missing-accessory", "slow-leak", "seam-split",
         "missing-hardware", "damaged-panels", "damaged-frame", "wrong-finish",
     ]
-    order_number: str | None = None
+    order_number: str | None = Field(
+        default=None, description="Amazon order number, e.g. 112-4839201-5573920"
+    )
     days_since_delivery: int | None = None
     valve_checked: bool = Field(default=False, description="True when the valve check was done")
     part_numbers: list[str] = Field(

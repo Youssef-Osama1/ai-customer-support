@@ -1,11 +1,20 @@
+import re
+
 from app.ai.schemas import Issue
 
-# Steps where the reply goes to the customer, because they have to check or send something first.
 CUSTOMER_STEPS = {"valve-check", "ask-details"}
+ORDER_NUMBER = re.compile(r"\b\d{3}-\d{7}-\d{7}\b")
 
 
-def resolve_issue(issue: Issue) -> str:
+def find_order_number(thread: str) -> str | None:
+    match = ORDER_NUMBER.search(thread)
+    return match.group() if match else None
+
+
+def resolve_issue(issue: Issue, thread: str = "") -> str:
     """Decide the next step for a reported problem. The model reports, Python decides."""
+    if not issue.order_number:
+        issue = issue.model_copy(update={"order_number": find_order_number(thread)})
     step = next_step(issue)
     if step not in CUSTOMER_STEPS | {"escalate"} and not issue.order_number:
         return "ask-details"
@@ -33,5 +42,4 @@ def next_step(issue: Issue) -> str:
             if not issue.part_numbers:
                 return "ask-details"
             return "ship-panels" if len(issue.part_numbers) <= 2 else "full-replacement"
-    # Seam splits and anything unexpected go to a person.
     return "escalate"

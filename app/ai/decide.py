@@ -28,7 +28,7 @@ def decide(thread: str, has_attachments: bool = False) -> Decision:
     if not answer.enough_information:
         return escalate("The knowledge base does not answer this")
     if answer.issue:
-        step = resolve_issue(answer.issue)
+        step = resolve_issue(answer.issue, thread)
         if step not in CUSTOMER_STEPS:
             return escalate(f"Next step: {step}", proposed_action=step)
     if answer.promises_an_action:

@@ -49,7 +49,6 @@ def process(gmail: Gmail, message_id: str) -> tuple[str, dict]:
 
     thread = gmail.get_thread(message["threadId"])
     if gmail.is_escalated(thread):
-        # A colleague owns this thread until they remove the needs-human label.
         return "skipped", {"reason": "thread is escalated"}
 
     decision = decide(format_thread(thread, gmail.address), has_attachments(message))

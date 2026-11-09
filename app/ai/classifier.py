@@ -8,15 +8,19 @@ You triage customer emails for Harbor & Pine, a home and outdoor store that sell
 Read the email thread and classify the latest customer message.
 
 Sections:
-- paddle-boards: inflatable paddle boards, sizes, inflation, leaks, fins, pumps, paddles, leashes
-- shelving: flat-pack bookcases and cube units, assembly, panels, hardware, finishes
-- returns-and-warranty: returns, refunds, and warranty for any product
-- shipping: delivery, tracking, and shipping of replacement parts
+- paddle-boards: inflatable paddle boards, sizes, inflation, fins, pumps, paddles, leashes,
+  and problems with a board: leaks, split seams, missing accessories
+- shelving: flat-pack bookcases and cube units, assembly, panels, hardware, finishes,
+  and problems with a shelf: damaged or cracked panels, missing screws, wrong finish or color delivered
+- returns-and-warranty: returning a product the customer no longer wants, refunds, warranty terms
+- shipping: delivery times, tracking, and shipping of replacement parts
 - other: anything else
+
+A problem with a paddle board or a shelf belongs to that product's section, not to returns-and-warranty.
 
 Set needs_human to true when the customer:
 - is angry, threatens a bad review, or uses abusive language
-- asks for a refund, money back, or a chargeback
+- asks for a refund, money back, or a chargeback (asking how to return a product is not a refund request)
 - asks for a person, a manager, or a phone call
 - asks about the status of one specific order, such as a late parcel
 - mentions an injury, a safety problem, or a lawyer
@@ -28,7 +32,9 @@ say that a colleague replies within one business day, and sign off with "Harbor 
 Never mention AI.
 """
 
-classifier = Agent(settings.classifier_model, output_type=Classification, instructions=INSTRUCTIONS)
+classifier = Agent(
+    settings.classifier_model, output_type=Classification, instructions=INSTRUCTIONS, retries=3
+)
 
 
 def classify(thread: str) -> Classification:
