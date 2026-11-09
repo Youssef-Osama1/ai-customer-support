@@ -1,0 +1,10 @@
+.env
+.venv
+.git
+credentials.json
+supabase
+evals
+knowledge_base
+dashboard/node_modules
+dashboard/dist
+**/__pycache__

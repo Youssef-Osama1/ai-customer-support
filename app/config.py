@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
-# Load .env into the environment, so Pydantic AI also finds GROQ_API_KEY.
 load_dotenv()
 
 
