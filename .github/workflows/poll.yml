@@ -1,0 +1,27 @@
+name: Poll inbox
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: poll-inbox
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Wake the service
+        run: |
+          curl --silent --show-error --fail --max-time 120 \
+            --retry 3 --retry-delay 10 --retry-all-errors \
+            "${{ secrets.APP_URL }}/health"
+
+      - name: Check the inbox
+        run: |
+          curl --silent --show-error --fail --max-time 180 \
+            -X POST -u "${{ secrets.DASHBOARD_USERNAME }}:${{ secrets.DASHBOARD_PASSWORD }}" \
+            "${{ secrets.APP_URL }}/api/poll"

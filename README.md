@@ -144,3 +144,7 @@ docker compose up -d --build
 ```
 
 This starts two services from one image: `api` (dashboard and API on `127.0.0.1:8080`) and `poller`. Run only one poller per inbox, or the same email gets two replies.
+
+### Deployment
+
+The live version runs the `api` service as a Docker web service on Render. Instead of a long-running poller, a scheduled GitHub Actions workflow (`.github/workflows/poll.yml`) calls `POST /api/poll` every 10 minutes. It wakes the service and processes new mail. It needs three repository secrets: `APP_URL`, `DASHBOARD_USERNAME`, and `DASHBOARD_PASSWORD`.
